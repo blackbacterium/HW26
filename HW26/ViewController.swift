@@ -9,14 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	private let viewA = UIView()
-	private let viewB = UIView()
-	private let viewC = UIView()
-	private let viewD = UIView()
-	private let viewE = UIView()
+    private let viewA = CustomView(viewName: "viewA", backgroundColor: .lightGray)
+    private let viewB = CustomView(viewName: "viewB", backgroundColor: .red)
+    private let viewC = CustomView(viewName: "viewC", backgroundColor: .blue)
+    private let viewD = CustomView(viewName: "viewD", backgroundColor: .yellow)
+    private let viewE = CustomView(viewName: "viewE", backgroundColor: .green)
+    private let label = UILabel()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
+        viewA.delegate = self
+        viewB.delegate = self
+        viewC.delegate = self
+        viewD.delegate = self
+        viewE.delegate = self
+        
 		addSubViews()
 		setupViews()
 		addLabels()
@@ -37,20 +45,22 @@ private extension ViewController {
 	func setupViews() {
 		view.backgroundColor = .white
 		
-		viewA.backgroundColor = .lightGray
-		viewB.backgroundColor = .red
-		viewC.backgroundColor = .blue
-		viewD.backgroundColor = .yellow
-		viewE.backgroundColor = .green
+//		viewA.backgroundColor = .lightGray
+//		viewB.backgroundColor = .red
+//		viewC.backgroundColor = .blue
+//		viewD.backgroundColor = .yellow
+//		viewE.backgroundColor = .green
+        label.text = "Здесь будет название выбранной вью"
 	}
 	
-	func addLabels() {
-		addLabel(to: viewA, text: "A")
-		addLabel(to: viewB, text: "B")
-		addLabel(to: viewC, text: "C")
-		addLabel(to: viewD, text: "D")
-		addLabel(to: viewE, text: "E")
-	}
+    func addLabels() {
+        addLabel(to: viewA, text: "A")
+        addLabel(to: viewB, text: "B")
+        addLabel(to: viewC, text: "C")
+        addLabel(to: viewD, text: "D")
+        addLabel(to: viewE, text: "E")
+        view.addSubview(label)
+    }
 	
 }
 
@@ -79,6 +89,7 @@ private extension ViewController {
 		viewC.translatesAutoresizingMaskIntoConstraints = false
 		viewD.translatesAutoresizingMaskIntoConstraints = false
 		viewE.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
 			
@@ -106,7 +117,15 @@ private extension ViewController {
 			viewE.centerXAnchor.constraint(equalTo: viewC.centerXAnchor),
 			viewE.widthAnchor.constraint(equalToConstant: 80),
 			viewE.heightAnchor.constraint(equalToConstant: 120),
+            label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
 		])
 	}
 }
 
+//MARK: -ICustomViewDelegate
+extension ViewController: ICustomViewDelegate {
+    func findView(name: String) {
+        label.text = name
+    }
+}

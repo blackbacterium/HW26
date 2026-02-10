@@ -34,7 +34,6 @@ class CustomView: UIView {
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        
         if super.point(inside: point, with: event) {
             return true
         }
@@ -45,7 +44,6 @@ class CustomView: UIView {
                 return true
             }
         }
-
         return false
     }
     

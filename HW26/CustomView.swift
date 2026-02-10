@@ -26,11 +26,27 @@ class CustomView: UIView {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         if let view = hitView as? CustomView {
-            self.delegate?.findView(name: view.viewName)
+            view.delegate?.findView(name: view.viewName)
         } else {
             print("nil")
         }
         return hitView
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        
+        if super.point(inside: point, with: event) {
+            return true
+        }
+
+        for subview in subviews {
+            let pointInSubview = subview.convert(point, from: self)
+            if subview.point(inside: pointInSubview, with: event) {
+                return true
+            }
+        }
+
+        return false
     }
     
     
